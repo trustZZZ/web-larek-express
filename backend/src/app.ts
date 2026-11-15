@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import mongoose from 'mongoose';
 import router from './routes/products';
+import orderRouter from './routes/order';
 import path from 'path';
 
 const app = express();
@@ -14,7 +15,8 @@ const DB_URL = 'mongodb://127.0.0.1:27017/weblarek';
 
 mongoose.connect(DB_URL);
 
-app.use('/products', router);
+app.use('/product', router);
+app.use('/order', orderRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{baseUrl}}/auth/login"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"email\": \"admin@gmail.com\",\r
+
+    \    \"password\": \"123456789\"\r
+
+    }"
+examples: ./.resources/Login.resources/examples
+order: 1000

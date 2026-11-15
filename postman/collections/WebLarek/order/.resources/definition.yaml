@@ -1,0 +1,3 @@
+$kind: collection
+description: Маршрут для создания заказа
+order: 3000

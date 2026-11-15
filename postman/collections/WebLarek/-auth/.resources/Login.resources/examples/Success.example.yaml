@@ -1,0 +1,40 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/auth/login"
+  method: POST
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: "{\r
+
+      \    \"email\": \"admin@gmail.com\",\r
+
+      \    \"password\": \"123456789\"\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "2723"
+    ETag: W/"aa3-y+wJfqV/fdEJPP9Np/+WEJUYAdk"
+    Date: Thu, 11 Jan 2024 19:45:22 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: json
+    content: |-
+      {
+          "success": true,
+          "user": {
+              "name": "Василий",
+              "email": "admin@gmail.com",
+              "id": "6659ab833a2c61e55dfd160e"
+          },
+          "accessToken": "{{json_web_token_0m16}}"
+      }
+order: 1000

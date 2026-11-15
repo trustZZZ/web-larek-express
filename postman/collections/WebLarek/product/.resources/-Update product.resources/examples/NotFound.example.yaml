@@ -1,0 +1,40 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/product/6659c9d98ec8873e16cc23b4"
+  method: PATCH
+  headers:
+    Authorization: "{{accessToken}}"
+  body:
+    type: formdata
+    content:
+      - type: text
+        key: description
+        value: Чтобы научиться правильно называть модификаторы, без этого не обойтись.
+      - type: text
+        key: title
+        value: БЭМ-пилюлька
+      - type: text
+        key: category
+        value: другое
+      - type: text
+        key: price
+        value: "1500"
+response:
+  statusCode: 404
+  statusText: Not Found
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "20"
+    ETag: W/"14-s+qz4i6AO6tDYm6PsMCkX6W2fzY"
+    Date: Thu, 11 Jan 2024 19:46:49 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: json
+    content: |-
+      {
+          "message": "Нет товара по заданному id"
+      }
+order: 6000

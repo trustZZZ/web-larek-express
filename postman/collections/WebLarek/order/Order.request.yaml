@@ -1,0 +1,28 @@
+$kind: http-request
+url: "{{baseUrl}}/order"
+method: POST
+body:
+  type: json
+  content: " {\r
+
+    \    \"payment\": \"card\", // card || online\r
+
+    \    \"email\": \"admin@ya.ru\",\r
+
+    \    \"phone\": \"+7999999999\",\r
+
+    \    \"address\": \"test\",\r
+
+    \    \"total\": 11000,\r
+
+    \    \"items\": [\r
+
+    \        \"6af977f5d9d2020966f21359\", // id товара\r
+
+    \        \"6af977f5d9d2020966f2135a\"\r
+
+    \    ]\r
+
+    }"
+examples: ./.resources/Order.resources/examples
+order: 1000

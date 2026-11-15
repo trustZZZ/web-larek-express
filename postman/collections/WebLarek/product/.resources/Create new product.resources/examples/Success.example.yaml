@@ -1,0 +1,48 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/product"
+  method: POST
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: "{\r
+
+      \    \"description\": \"Откройте эти куки, чтобы узнать, какой фреймворк вы должны изучить дальше.\",\r
+
+      \    \"image\": \"/images/Soft_Flower.png\",\r
+
+      \    \"title\": \"Фреймворк куки судьбы\",\r
+
+      \    \"category\": \"дополнительное\",\r
+
+      \    \"price\": 2500\r
+
+      }"
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "262"
+    ETag: W/"106-tQhoH+yYIBbNE2UOGvU1poblMkY"
+    Date: Thu, 11 Jan 2024 19:45:58 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: json
+    content: |-
+      {
+          "title": "Бэкенд-антистресс",
+          "image": {
+              "fileName": "/images/Mithosis.png",
+              "originalName": "Mithosis.png"
+          },
+          "category": "другое",
+          "description": "Сжимайте мячик, чтобы снизить стресс от тем по бэкенду.",
+          "price": 1000,
+          "_id": "66601ac957ecac94459696e8"
+      }
+order: 1000

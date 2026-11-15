@@ -1,0 +1,35 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/auth/register"
+  method: POST
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: "{\r
+
+      \    \"name\": \"Василий\",\r
+
+      \    \"email\": \"admin@gmail.com\",\r
+
+      \    \"password\": \"123456789\"\r
+
+      }"
+response:
+  statusCode: 201
+  statusText: Created
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+          "success": true,
+          "user": {
+              "name": "Василий",
+              "email": "admin@gmail.com",
+              "id": "6659ab833a2c61e55dfd160e"
+          },
+          "accessToken": "{{json_web_token_0m16}}"
+      }
+order: 1000

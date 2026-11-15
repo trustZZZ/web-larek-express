@@ -1,0 +1,4 @@
+$kind: collection
+name: "*auth"
+description: Маршруты связанные с пользователем
+order: 2000
