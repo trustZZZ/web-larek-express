@@ -1,7 +1,9 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { faker } from '@faker-js/faker';
 import Product from '../models/Product';
 import mongoose from 'mongoose';
+import BadRequestError from '../errors/bad-request-error';
+
 
 interface IOrder {
     payment: 'card' | 'online';
@@ -12,36 +14,33 @@ interface IOrder {
     items: string[];
 }
 
-export const makeOrder = (req: Request, res: Response) => {
+export const makeOrder = (req: Request, res: Response, next: NextFunction) => {
     const { payment, email, phone, address, total, items }: IOrder = req.body;
 
     if (!Array.isArray(items) || items.length === 0) {
-        return res.status(400).json({ error: 'Ошибка: список товаров пуст' });
+        return next(new BadRequestError('Ошибка валидации данных при создании заказа'));
     }
 
     const invalidIds = items.filter((id: string) => !mongoose.isValidObjectId(id));
 
     if (invalidIds.length > 0) {
-        return res.status(400).json({
-            error: 'Один или несколько ID товаров имеют неверный формат',
-            invalid: invalidIds
-        });
+        return next(new BadRequestError('Ошибка валидации данных при создании заказа'));
     }
 
     if (!['card', 'online'].includes(payment)) {
-        return res.status(400).json({ error: 'Ошибка: не задан способ оплаты' });
+        return next(new BadRequestError('Ошибка валидации данных при создании заказа'));
     }
     if (!email || typeof email !== 'string' || !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-        return res.status(400).json({ error: 'Некорректный email' });
+        return next(new BadRequestError('Ошибка валидации данных при создании заказа'));
     }
     if (!phone || typeof phone !== 'string') {
-        return res.status(400).json({ error: 'Поле "phone" обязательно и должно быть строкой' });
+        return next(new BadRequestError('Ошибка валидации данных при создании заказа'));
     }
     if (!address || typeof address !== 'string') {
-        return res.status(400).json({ error: 'Поле "address" обязательно и должно быть строкой' });
+        return next(new BadRequestError('Ошибка валидации данных при создании заказа'));
     }
     if (typeof total !== 'number') {
-        return res.status(400).json({ error: 'Поле "total" обязательно и должно быть числом' });
+        return next(new BadRequestError('Ошибка валидации данных при создании заказа'));
     }
 
     Promise.all(items.map((itemId) => Product.findById(itemId)))
@@ -49,17 +48,17 @@ export const makeOrder = (req: Request, res: Response) => {
             let totalPrice = 0;
             for (const product of products) {
                 if (!product) {
-                    return res.status(400).json({ error: 'Ошибка: нет товаров в БД' });
+                    return next(new BadRequestError('Ошибка валидации данных при создании заказа'));
                 }
                 if (typeof product.price !== 'number') {
-                    return res.status(400).json({ error: 'Ошибка: товар не продается' });
+                    return next(new BadRequestError('Ошибка валидации данных при создании заказа'));
                 }
                 totalPrice += product.price;
             }
             if (totalPrice !== total) {
-                return res.status(400).json({ error: `Ошибка: сумма не соответствует` });
+                return next(new BadRequestError('Ошибка валидации данных при создании заказа'));
             }
             return res.status(200).json({ id: faker.string.uuid(), total: totalPrice });
         })
-        .catch((error) => res.status(500).json({ error: 'Внутренняя ошибка сервера' }));
+        .catch((error) => next(error));
 };

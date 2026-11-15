@@ -1,15 +1,16 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import Product from '../models/Product';
+import ConflictError from '../errors/conflict-error';
 
-export const getProducts = (req: Request, res: Response) => {
+export const getProducts = (req: Request, res: Response, next: NextFunction) => {
   Product.find({})
-    .then((products) => { res.json({item: products, total: products.length}) })
+    .then((products) => { res.json({ item: products, total: products.length }) })
     .catch((error) => {
-      res.status(500).json({ error: error instanceof Error ? error.message : error });
+      return next(error)
     })
 };
 
-export const createProduct = (req: Request, res: Response) => {
+export const createProduct = (req: Request, res: Response, next: NextFunction) => {
   const {
     description, image, title, category, price,
   } = req.body;
@@ -22,6 +23,9 @@ export const createProduct = (req: Request, res: Response) => {
   })
     .then((product) => res.json(product))
     .catch((error) => {
-      res.status(500).json({ error: error.message });
+      if (error instanceof Error && error.message.includes('E11000')) {
+        return next(new ConflictError('Объект с таким названием уже существует'));
+      }
+      next(error);
     });
 };

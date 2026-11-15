@@ -3,9 +3,13 @@ import express from 'express';
 import mongoose from 'mongoose';
 import router from './routes/products';
 import orderRouter from './routes/order';
+import { errors } from 'celebrate';
+import { errorHandler } from './middleware/errorHandler';
 import path from 'path';
+import NotFoundError from './errors/not-found-error'; 
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,4 +23,13 @@ app.use('/product', router);
 app.use('/order', orderRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use((req, res, next) => {
+  next(new NotFoundError('Маршрут не найден'));
+});
+
+app.use(errors());
+
+app.use(errorHandler);
+
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

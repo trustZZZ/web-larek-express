@@ -14,7 +14,7 @@ interface IProduct {
 }
 
 const productSchema = new mongoose.Schema<IProduct>({
-  title: { type: String, required: true },
+  title: { type: String, required: true, unique: true },
   image: { type: Object, required: true },
   category: { type: String, required: true },
   description: { type: String, required: true },
