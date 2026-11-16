@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 interface IImage {
-  filename: string,
+  fileName: string,
   originalName: string
 }
 
@@ -23,7 +23,7 @@ const productSchema = new mongoose.Schema<IProduct>({
   },
   image: {
     type: new mongoose.Schema({
-      filename: {
+      fileName: {
         type: String,
         required: [true, 'Изображение должно содержать поле "filename"']
       },

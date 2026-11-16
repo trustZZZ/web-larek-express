@@ -7,6 +7,7 @@ import { errors } from 'celebrate';
 import { errorHandler } from './middleware/errorHandler';
 import path from 'path';
 import NotFoundError from './errors/not-found-error'; 
+import { requestLogger, errorLogger } from './middleware/logger';
 
 const app = express();
 
@@ -19,6 +20,7 @@ const DB_URL = 'mongodb://127.0.0.1:27017/weblarek';
 
 mongoose.connect(DB_URL);
 
+app.use(requestLogger);
 app.use('/product', router);
 app.use('/order', orderRouter);
 
@@ -28,8 +30,8 @@ app.use((req, res, next) => {
   next(new NotFoundError('Маршрут не найден'));
 });
 
+app.use(errorLogger);
 app.use(errors());
-
 app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

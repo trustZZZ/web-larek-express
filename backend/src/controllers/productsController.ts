@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import Product from '../models/Product';
 import ConflictError from '../errors/conflict-error';
+import NotFoundError from '../errors/not-found-error';
 
 export const getProducts = (req: Request, res: Response, next: NextFunction) => {
   Product.find({})
@@ -9,6 +10,17 @@ export const getProducts = (req: Request, res: Response, next: NextFunction) => 
       return next(error)
     })
 };
+
+export const getProductById = (req: Request, res: Response, next: NextFunction) => {
+  Product.findById(req.params.id)
+    .then((product) => {
+      if (!product) {
+        return next(new NotFoundError('Товар не найден'));
+      }
+      return res.json({ product })
+    })
+    .catch((error) => { return next(error) });
+}
 
 export const createProduct = (req: Request, res: Response, next: NextFunction) => {
   const {
