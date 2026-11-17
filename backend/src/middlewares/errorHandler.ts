@@ -1,7 +1,6 @@
 import { Error as MongooseError } from 'mongoose';
 import BaseError from "../errors/base-error";
 import { Request, Response, NextFunction } from "express";
-import BadRequestError from "../errors/bad-request-error";
 
 export const errorHandler = (error: Error, req: Request, res: Response, next: NextFunction) => {
 

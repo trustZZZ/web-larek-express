@@ -48,10 +48,6 @@ export const updateProduct = (req: Request, res: Response, next: NextFunction) =
       return res.json(product);
     })
     .catch((error) => {
-      if (error instanceof Error && error.message.includes('ENOENT')) {
-        return next(new BadRequestError('Файл изображения не найден, загрузите его заново'));
-      }
-
       return next(error);
     });
 }
