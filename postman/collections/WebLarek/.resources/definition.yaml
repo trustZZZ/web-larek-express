@@ -1,0 +1,13 @@
+$kind: collection
+description: ""
+variables:
+  - key: baseUrl
+    value: http://localhost:3000
+    secret: false
+  - key: accessToken
+    value: "{{json_web_token_07ok}}"
+    secret: false
+  - key: json_web_token_07ok
+    secret: true
+  - key: json_web_token_0m16
+    secret: true

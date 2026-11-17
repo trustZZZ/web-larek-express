@@ -1,0 +1,26 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/auth/token"
+  method: POST
+  body:
+    type: json
+    content: "{\r
+
+      \    \"email\": \"admin@gmail.com\",\r
+
+      \    \"password\": \"123456789\"\r
+
+      }"
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: "{\r
+
+      \    \"message\": \"Не валидный токен\"\r
+
+      }"
+order: 2000

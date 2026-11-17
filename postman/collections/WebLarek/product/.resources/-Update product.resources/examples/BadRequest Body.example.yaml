@@ -1,0 +1,56 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/product/6659c9d98ec8873e16cc23b4"
+  method: PATCH
+  headers:
+    Authorization: "{{accessToken}}"
+  body:
+    type: formdata
+    content:
+      - type: text
+        key: description
+        value: Чтобы научиться правильно называть модификаторы, без этого не обойтись.
+      - type: text
+        key: title
+        value: БЭМ-пилюлька
+      - type: text
+        key: category
+        value: другое
+      - type: text
+        key: price
+        value: "1500"
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: "{\r
+
+      \    \"statusCode\": 400,\r
+
+      \    \"error\": \"Bad Request\",\r
+
+      \    \"message\": \"Validation failed\",\r
+
+      \    \"validation\": {\r
+
+      \        \"body\": {\r
+
+      \            \"source\": \"body\",\r
+
+      \            \"keys\": [\r
+
+      \                \"title\"\r
+
+      \            ],\r
+
+      \            \"message\": \"Минимальная длина поля \\\"name\\\" - 2\"\r
+
+      \        }\r
+
+      \    }\r
+
+      }"
+order: 2000

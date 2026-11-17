@@ -1,0 +1,17 @@
+$kind: http-request
+name: "*Upload file"
+url: "{{baseUrl}}/upload"
+method: POST
+body:
+  type: formdata
+  content:
+    - type: file
+      key: file
+      src:
+        - postman-cloud:///1ef1f421-6e62-49a0-962a-797749256745
+auth:
+  type: bearer
+  credentials:
+    token: "{{accessToken}}"
+examples: ./.resources/-Upload file.resources/examples
+order: 1000

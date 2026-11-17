@@ -1,0 +1,25 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/auth/logout"
+  method: GET
+  headers:
+    Content-Type: application/json
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    X-Powered-By: Express
+    Access-Control-Allow-Origin: "*"
+    Content-Type: application/json; charset=utf-8
+    Content-Length: "2723"
+    ETag: W/"aa3-y+wJfqV/fdEJPP9Np/+WEJUYAdk"
+    Date: Thu, 11 Jan 2024 19:45:22 GMT
+    Connection: keep-alive
+    Keep-Alive: timeout=5
+  body:
+    type: json
+    content: |-
+      {
+          "success": true
+      }
+order: 1000

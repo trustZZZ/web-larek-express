@@ -1,0 +1,19 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/auth/user"
+  method: GET
+  headers:
+    Authorization: "{{accessToken}}"
+response:
+  statusCode: 401
+  statusText: Unauthorized
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: "{\r
+
+      \    \"message\": \"Необходима авторизация\" // \"Истек срок действия токена\"\r
+
+      }"
+order: 2000

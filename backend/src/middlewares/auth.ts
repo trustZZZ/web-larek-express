@@ -1,0 +1,36 @@
+import UnauthorizedError from '../errors/unautherized-error';
+import { Request, Response, NextFunction } from 'express';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'super-secret';
+
+const extractBearerToken = (header: string) => {
+    return header.replace('Bearer ', '');
+};
+
+export default (req: Request, res: Response, next: NextFunction) => {
+    const { authorization } = req.headers;
+
+    if (!authorization || !authorization.startsWith('Bearer ')) {
+        return next(new UnauthorizedError('Ошибка авторизации'));
+    }
+
+    const token = extractBearerToken(authorization);
+    let payload: JwtPayload;
+
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+
+        if (typeof decoded === 'string') {
+            return next(new UnauthorizedError('Ошибка авторизации'));
+        }
+
+        payload = decoded;
+    } catch (error) {
+        return next(new UnauthorizedError('Ошибка авторизации'));
+    }
+
+    req.user = payload;
+
+    return next();
+};

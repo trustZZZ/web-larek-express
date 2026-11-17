@@ -1,0 +1,9 @@
+$kind: http-request
+url: "{{baseUrl}}/auth/token"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{accessToken}}"
+examples: ./.resources/Refresh token.resources/examples
+order: 3000
