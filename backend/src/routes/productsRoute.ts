@@ -1,5 +1,7 @@
 import { Router } from 'express';
-import { getProducts, createProduct, getProductById, updateProduct, deleteProduct } from '../controllers/productsController';
+import {
+  getProducts, createProduct, getProductById, updateProduct, deleteProduct,
+} from '../controllers/productsController';
 import { validateCreateProductBody, validatePatchProductBody, validateProductIdParam } from '../middlewares/validators';
 import auth from '../middlewares/auth';
 

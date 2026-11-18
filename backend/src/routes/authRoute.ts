@@ -1,5 +1,7 @@
 import { Router } from 'express';
-import { getCurrentUser, login, logout, refreshAccessToken, registerUser } from '../controllers/authController';
+import {
+  getCurrentUser, login, logout, refreshAccessToken, registerUser,
+} from '../controllers/authController';
 import auth from '../middlewares/auth';
 import { validateLoginBody, validateRegisterBody } from '../middlewares/validators';
 

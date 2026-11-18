@@ -17,27 +17,27 @@ interface UserModel extends mongoose.Model<IUser> {
 }
 
 const userSchema = new mongoose.Schema<IUser, UserModel>({
-    name: {
-        type: String,
-        minlength: [2, 'Поле "name" должно содержать минимум 2 символа'],
-        maxlength: [30, 'Поле "name" должно содержать максимум 30 символов'],
-        required: false,
-        default: 'Ё-мое'
-    },
-    email: {
-        type: String,
-        required: [true, 'Поле "email" обязательное'],
-        unique: true
-    },
-    password: {
-        type: String,
-        select: false,
-        required: [true, 'Поле "password" должно быть заполнено'],
-        minlength: [6, 'Поле "password" должно содержать не менее 6 символов'],
-    },
-    tokens: [{
-        token: { type: String, required: true, select: false }
-    }]
+  name: {
+    type: String,
+    minlength: [2, 'Поле "name" должно содержать минимум 2 символа'],
+    maxlength: [30, 'Поле "name" должно содержать максимум 30 символов'],
+    required: false,
+    default: 'Ё-мое',
+  },
+  email: {
+    type: String,
+    required: [true, 'Поле "email" обязательное'],
+    unique: true,
+  },
+  password: {
+    type: String,
+    select: false,
+    required: [true, 'Поле "password" должно быть заполнено'],
+    minlength: [6, 'Поле "password" должно содержать не менее 6 символов'],
+  },
+  tokens: [{
+    token: { type: String, required: true, select: false },
+  }],
 });
 
 userSchema.static('findUserByCredentials', function findUserByCredentials(email: string, password: string) {
@@ -58,4 +58,4 @@ userSchema.static('findUserByCredentials', function findUserByCredentials(email:
     });
 });
 
-export default mongoose.model<IUser, UserModel>('user', userSchema); 
+export default mongoose.model<IUser, UserModel>('user', userSchema);

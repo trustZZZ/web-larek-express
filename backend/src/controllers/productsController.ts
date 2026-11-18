@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from 'express';
+import fs from 'fs/promises';
+import path from 'path';
+import { existsSync } from 'fs';
 import Product from '../models/Product';
 import ConflictError from '../errors/conflict-error';
 import NotFoundError from '../errors/not-found-error';
-import fs from 'fs/promises';
-import path from 'path';
 import BadRequestError from '../errors/bad-request-error';
-import { existsSync } from 'fs';
 
-const PUBLIC_IMAGES_DIR = path.join(__dirname, '../../public/images');
+const PUBLIC_IMAGES_DIR = path.join(__dirname, '..', 'public', 'images');
 const TEMP_DIR = path.join(__dirname, '../../uploads/temp');
 
 const moveImageFromTmp = (fileName: string) => {
@@ -34,10 +34,10 @@ export const getProductById = (req: Request, res: Response, next: NextFunction) 
       if (!product) {
         return next(new NotFoundError('Товар не найден'));
       }
-      return res.json({ product })
+      return res.json({ product });
     })
-    .catch((error) => { return next(error) });
-}
+    .catch((error) => next(error));
+};
 
 export const updateProduct = (req: Request, res: Response, next: NextFunction) => {
   const {
@@ -50,7 +50,9 @@ export const updateProduct = (req: Request, res: Response, next: NextFunction) =
     : Promise.resolve();
 
   const userData = Object.fromEntries(
-    Object.entries({ description, title, category, price, image })
+    Object.entries({
+      description, title, category, price, image,
+    })
       .filter(([, value]) => value !== undefined),
   );
 
@@ -63,24 +65,20 @@ export const updateProduct = (req: Request, res: Response, next: NextFunction) =
 
       return res.json(product);
     })
-    .catch((error) => {
-      return next(error);
-    });
-}
+    .catch((error) => next(error));
+};
 
 export const deleteProduct = (req: Request, res: Response, next: NextFunction) => {
   const id = req.params.productId;
   Product.findByIdAndDelete(id, { returnDocument: 'before' })
     .then((product) => {
       if (!product) {
-        return next(new NotFoundError('Товар не найден'))
+        return next(new NotFoundError('Товар не найден'));
       }
       return res.status(200).json(product);
     })
-    .catch((error) => {
-      return next(error);
-    })
-}
+    .catch((error) => next(error));
+};
 
 export const createProduct = (req: Request, res: Response, next: NextFunction) => {
   const {
