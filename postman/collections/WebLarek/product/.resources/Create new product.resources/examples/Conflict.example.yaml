@@ -1,0 +1,33 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/product"
+  method: POST
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: "{\r
+
+      \    \"description\": \"Откройте эти куки, чтобы узнать, какой фреймворк вы должны изучить дальше.\",\r
+
+      \    \"image\": \"/images/Soft_Flower.svg\",\r
+
+      \    \"title\": \"Фреймворк куки судьбы\",\r
+
+      \    \"category\": \"дополнительное\",\r
+
+      \    \"price\": 2500\r
+
+      }"
+response:
+  statusCode: 409
+  statusText: Conflict
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+          "message": "E11000 duplicate key error collection: weblarek.products index: title_1 dup key: { title: \"Фреймворк куки судьбы\" }"
+      }
+order: 3000

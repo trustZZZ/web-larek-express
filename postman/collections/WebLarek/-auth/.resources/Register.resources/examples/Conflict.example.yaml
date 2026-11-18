@@ -1,0 +1,29 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/auth/register"
+  method: POST
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: "{\r
+
+      \    \"name\": \"Василий\",\r
+
+      \    \"email\": \"admin@gmail.com\",\r
+
+      \    \"password\": \"123456789\"\r
+
+      }"
+response:
+  statusCode: 409
+  statusText: Conflict
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+          "message": "Пользователь с таким email уже существует"
+      }
+order: 2000

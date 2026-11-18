@@ -1,0 +1,9 @@
+$kind: http-request
+url: "{{baseUrl}}/auth/logout"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{accessToken}}"
+examples: ./.resources/Logout.resources/examples
+order: 2000

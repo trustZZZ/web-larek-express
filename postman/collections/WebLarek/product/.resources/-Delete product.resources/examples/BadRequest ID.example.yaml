@@ -1,0 +1,19 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/product/6659c9d98ec8873e16cc23b4"
+  method: DELETE
+  headers:
+    Authorization: "{{accessToken}}"
+response:
+  statusCode: 400
+  statusText: Bad Request
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: "{\r
+
+      \    \"message\": \"Передан не валидный ID товара\"\r
+
+      }"
+order: 2000

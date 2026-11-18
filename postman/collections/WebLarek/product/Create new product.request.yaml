@@ -1,0 +1,30 @@
+$kind: http-request
+url: "{{baseUrl}}/product"
+method: POST
+auth:
+  type: bearer
+  credentials:
+    token: "{{accessToken}}"
+body:
+  type: json
+  content: "{\r
+
+    \    \"description\": \"Сжимайте мячик, чтобы снизить стресс от тем по бэкенду.\",\r
+
+    \    \"image\": {\r
+
+    \      \"fileName\": \"/images/Mithosis.png\",\r
+
+    \      \"originalName\": \"Mithosis.png\"\r
+
+    \    },\r
+
+    \    \"title\": \"Бэкенд-антистресс\",\r
+
+    \    \"category\": \"другое\",\r
+
+    \    \"price\": 1000\r
+
+    \  }"
+examples: ./.resources/Create new product.resources/examples
+order: 2000

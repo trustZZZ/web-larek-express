@@ -1,0 +1,30 @@
+$kind: http-request
+url: "{{baseUrl}}/order"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"payment\": \"online\",\r
+
+    \    \"email\": \"test@test.ru\",\r
+
+    \    \"phone\": \"+71234567890\",\r
+
+    \    \"address\": \"Spb Vosstania 1\",\r
+
+    \    \"total\": 2200,\r
+
+    \    \"items\": [\r
+
+    \        \"662e97d0c2fed29cab5bf3db\",\r
+
+    \        \"662e97dec2fed29cab5bf3dd\"\r
+
+    \    \r
+
+    \    ]\r
+
+    }"
+examples: ./.resources/Order.resources/examples
+order: 1000

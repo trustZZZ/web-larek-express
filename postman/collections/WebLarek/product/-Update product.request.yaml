@@ -1,0 +1,31 @@
+$kind: http-request
+name: "*Update product"
+url: "{{baseUrl}}/product/6659c9d98ec8873e16cc23b4"
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \    \"description\": \"Сжимайте мячик, чтобы снизить стресс от тем по бэкенду.\",\r
+
+    \    \"image\": {\r
+
+    \      \"fileName\": \"/images/Mithosis.png\",\r
+
+    \      \"originalName\": \"Mithosis.png\"\r
+
+    \    },\r
+
+    \    \"title\": \"Бэкенд-антистресс\",\r
+
+    \    \"category\": \"другое\",\r
+
+    \    \"price\": 1000\r
+
+    \  }"
+auth:
+  type: bearer
+  credentials:
+    token: "{{accessToken}}"
+examples: ./.resources/-Update product.resources/examples
+order: 3000

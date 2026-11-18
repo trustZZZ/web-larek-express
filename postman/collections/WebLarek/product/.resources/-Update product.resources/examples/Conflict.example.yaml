@@ -1,0 +1,33 @@
+$kind: http-example
+request:
+  url: "{{baseUrl}}/product/6659c9d98ec8873e16cc23b4"
+  method: PATCH
+  headers:
+    Authorization: "{{accessToken}}"
+  body:
+    type: formdata
+    content:
+      - type: text
+        key: description
+        value: Чтобы научиться правильно называть модификаторы, без этого не обойтись.
+      - type: text
+        key: title
+        value: БЭМ-пилюлька
+      - type: text
+        key: category
+        value: другое
+      - type: text
+        key: price
+        value: "1500"
+response:
+  statusCode: 409
+  statusText: Conflict
+  headers:
+    Content-Type: application/json
+  body:
+    type: json
+    content: |-
+      {
+          "message": "Товар с таким заголовком уже существует"
+      }
+order: 4000
