@@ -3,15 +3,18 @@ import bycript from 'bcryptjs';
 import ms from 'ms';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 import User from '../models/User';
 import NotFoundError from '../errors/not-found-error';
 import UnauthorizedError from '../errors/unautherized-error';
 import BadRequestError from '../errors/bad-request-error';
 
+dotenv.config();
+
 type TTokenType = 'access' | 'refresh';
 interface ITokenPayload extends JwtPayload {
-    _id: string;
-    type: TTokenType
+  _id: string;
+  type: TTokenType
 }
 
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'super-secret';

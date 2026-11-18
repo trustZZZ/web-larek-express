@@ -3,11 +3,15 @@ description: ""
 variables:
   - key: baseUrl
     value: http://localhost:3000
+    disabled: false
     secret: false
   - key: accessToken
     value: "{{json_web_token_07ok}}"
+    disabled: false
     secret: false
   - key: json_web_token_07ok
-    secret: true
+    value: ""
+    disabled: false
   - key: json_web_token_0m16
     secret: true
+    disabled: false

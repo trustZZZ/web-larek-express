@@ -1,6 +1,10 @@
 $kind: http-request
 url: "{{baseUrl}}/product"
 method: POST
+auth:
+  type: bearer
+  credentials:
+    token: "{{accessToken}}"
 body:
   type: json
   content: "{\r

@@ -3,7 +3,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
 import cookieParser from 'cookie-parser';
-
+import dotenv from 'dotenv';
 import { errors } from 'celebrate';
 import process from 'process';
 import { mkdirSync } from 'fs';
@@ -18,7 +18,9 @@ import NotFoundError from './errors/not-found-error';
 
 import { startCleanupJob } from './jobs/cleanup';
 
-const PUBLIC_IMAGES_DIR = path.join(__dirname, 'public', 'images');
+dotenv.config();
+
+const PUBLIC_IMAGES_DIR = path.join(__dirname, 'public', process.env.UPLOAD_PATH || 'images');
 
 mkdirSync(PUBLIC_IMAGES_DIR, { recursive: true });
 
@@ -30,7 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const PORT = process.env.PORT || 3000;
-const DB_URL = process.env.DB_ADRESS || 'mongodb://127.0.0.1:27017/weblarek';
+const DB_URL = process.env.DB_ADDRESS || 'mongodb://127.0.0.1:27017/weblarek';
 
 const connectWithRetry = (attempt = 1) => {
   mongoose.connect(DB_URL)

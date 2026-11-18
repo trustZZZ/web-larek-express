@@ -1,20 +1,14 @@
 import winston from 'winston';
 import expressWinston from 'express-winston';
 
-export const requestLogger = expressWinston.logger(
-  {
-    transports: [
-      new winston.transports.Console(),
-    ],
-    format: winston.format.json(),
-  },
-);
+const LOGGER_OPTIONS = {
+  transports: [
+    new winston.transports.Console(),
+  ],
+  format: winston.format.json(),
+  headerBlacklist: ['authorization', 'cookie'],
+};
 
-export const errorLogger = expressWinston.errorLogger(
-  {
-    transports: [
-      new winston.transports.Console(),
-    ],
-    format: winston.format.json(),
-  },
-);
+export const requestLogger = expressWinston.logger(LOGGER_OPTIONS);
+
+export const errorLogger = expressWinston.errorLogger(LOGGER_OPTIONS);
