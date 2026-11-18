@@ -5,6 +5,22 @@ import NotFoundError from '../errors/not-found-error';
 import fs from 'fs/promises';
 import path from 'path';
 import BadRequestError from '../errors/bad-request-error';
+import { existsSync } from 'fs';
+
+const PUBLIC_IMAGES_DIR = path.join(__dirname, '../../public/images');
+const TEMP_DIR = path.join(__dirname, '../../uploads/temp');
+
+const moveImageFromTmp = (fileName: string) => {
+  const file = path.basename(fileName);
+  const source = path.join(TEMP_DIR, file);
+  const target = path.join(PUBLIC_IMAGES_DIR, file);
+
+  if (!existsSync(source)) {
+    return Promise.resolve();
+  }
+
+  return fs.rename(source, target);
+};
 
 export const getProducts = (req: Request, res: Response, next: NextFunction) => {
   Product.find({})
@@ -30,7 +46,7 @@ export const updateProduct = (req: Request, res: Response, next: NextFunction) =
 
   const id = req.params.productId;
   const moveImage = image && image.fileName
-    ? fs.rename(path.join(__dirname, '../../uploads/temp', path.basename(image.fileName)), path.join(__dirname, '../../public', image.fileName))
+    ? moveImageFromTmp(image.fileName)
     : Promise.resolve();
 
   const userData = Object.fromEntries(
@@ -75,10 +91,7 @@ export const createProduct = (req: Request, res: Response, next: NextFunction) =
     return next(new BadRequestError('Поле "image" должно быть заполнено'));
   }
 
-  const FINAL_DIR = path.join(__dirname, '../../public', image.fileName);
-  const TEMP_DIR = path.join(__dirname, '../../uploads/temp', path.basename(image.fileName));
-
-  return fs.rename(TEMP_DIR, FINAL_DIR)
+  return moveImageFromTmp(image.fileName)
     .then(() => Product.create({
       description,
       image,
@@ -90,10 +103,6 @@ export const createProduct = (req: Request, res: Response, next: NextFunction) =
     .catch((error) => {
       if (error instanceof Error && error.message.includes('E11000')) {
         return next(new ConflictError('Объект с таким названием уже существует'));
-      }
-
-      if (error instanceof Error && error.message.includes('ENOENT')) {
-        return next(new BadRequestError('Файл изображения не найден, загрузите его заново'));
       }
 
       return next(error);

@@ -2,7 +2,7 @@ import UnauthorizedError from '../errors/unautherized-error';
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super-secret';
+const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'super-secret';
 
 const extractBearerToken = (header: string) => {
     return header.replace('Bearer ', '');
@@ -19,9 +19,9 @@ export default (req: Request, res: Response, next: NextFunction) => {
     let payload: JwtPayload;
 
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        const decoded = jwt.verify(token, JWT_ACCESS_SECRET);
 
-        if (typeof decoded === 'string') {
+        if (typeof decoded === 'string' || decoded.type !== 'access') {
             return next(new UnauthorizedError('Ошибка авторизации'));
         }
 

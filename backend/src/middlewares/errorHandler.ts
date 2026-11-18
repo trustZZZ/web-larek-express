@@ -1,8 +1,17 @@
 import { Error as MongooseError } from 'mongoose';
+import { isCelebrateError } from 'celebrate';
 import BaseError from "../errors/base-error";
 import { Request, Response, NextFunction } from "express";
 
 export const errorHandler = (error: Error, req: Request, res: Response, next: NextFunction) => {
+
+    if (isCelebrateError(error)) {
+        const details = error.details.get('body')
+            ?? error.details.get('params')
+            ?? error.details.get('query');
+
+        return res.status(400).json({ message: details?.message ?? 'Ошибка валидации данных' });
+    }
 
     if (error instanceof BaseError) {
         return res.status(error.statusCode).json(

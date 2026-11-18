@@ -1,8 +1,4 @@
 import winston from 'winston';
-import path from 'path';
-import { dirname } from 'path';
-
-const baseDir = dirname(dirname(__dirname));
 
 export const jobLogger = winston.createLogger({
     level: 'info',
@@ -13,13 +9,6 @@ export const jobLogger = winston.createLogger({
         })
     ),
     transports: [
-        new winston.transports.File({
-            filename: path.join(baseDir, 'cron.log'),
-            level: 'info'
-        }),
-        new winston.transports.File({
-            filename: path.join(baseDir, 'cron-error.log'),
-            level: 'error'
-        })
+        new winston.transports.Console(),
     ],
 });

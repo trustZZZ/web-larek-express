@@ -8,15 +8,23 @@ import UnauthorizedError from '../errors/unautherized-error';
 import BadRequestError from '../errors/bad-request-error';
 import mongoose from 'mongoose';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'super-secret';
+type TTokenType = 'access' | 'refresh';
+interface ITokenPayload extends JwtPayload {
+    _id: string;
+    type: TTokenType
+}
+
+
+const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET || 'super-secret';
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || 'super-secret';
 
 const generateTokens = (_id: string) => {
 
     const accessExpiry = (process.env.AUTH_ACCESS_TOKEN_EXPIRY || '10m') as ms.StringValue;
     const refreshExpiry = (process.env.AUTH_REFRESH_TOKEN_EXPIRY || '7d') as ms.StringValue;
 
-    const accessToken = jwt.sign({ _id: _id }, JWT_SECRET, { expiresIn: accessExpiry });
-    const refreshToken = jwt.sign({ _id: _id }, JWT_SECRET, { expiresIn: refreshExpiry });
+    const accessToken = jwt.sign({ _id, type: 'access' }, JWT_ACCESS_SECRET, { expiresIn: accessExpiry });
+    const refreshToken = jwt.sign({ _id, type: 'refresh' }, JWT_REFRESH_SECRET, { expiresIn: refreshExpiry });
     return { accessToken, refreshToken, refreshExpiry };
 }
 
@@ -38,7 +46,15 @@ const authResponse = (user: TUserResponse, accessToken: string) => ({
     accessToken,
 });
 
-const verifyRefreshToken = (refreshToken: string) => jwt.verify(refreshToken, JWT_SECRET) as JwtPayload;
+const verifyRefreshToken = (refreshToken: string) => {
+    const payload = jwt.verify(refreshToken, JWT_REFRESH_SECRET) as ITokenPayload;
+
+    if (payload.type !== 'refresh') {
+        throw new UnauthorizedError('Ошибка авторизации');
+    }
+
+    return payload;
+}
 
 export const registerUser = (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body;
@@ -121,7 +137,7 @@ export const refreshAccessToken = (req: Request, res: Response, next: NextFuncti
         return next(new UnauthorizedError('Невалидный refresh-токен'));
     }
 
-    return User.findById(payload._id)
+    return User.findOne({ _id: payload._id, 'tokens.token': refreshToken })
         .then((user) => {
             if (!user) {
                 return Promise.reject(new UnauthorizedError('Пользователь не найден'));

@@ -10,7 +10,7 @@
     "start": "ts-node src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "< Укажите здесь автора работы >",
+  "author": "trustZZZ - Aleksey",
   "license": "ISC",
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",
@@ -41,6 +41,7 @@
     "celebrate": "^16.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
     "express": "^4.19.2",
     "express-winston": "^4.2.0",
     "jsonwebtoken": "^9.0.3",
